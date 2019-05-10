@@ -15,46 +15,66 @@ type Tier struct {
 
 // Tiered is a type for representing a system of tiers. It should be created via the
 // MakeTiered call.
-type Tiered []Tier
+type Tiered struct {
+	Tiers []Tier
+
+	sorted bool
+}
 
 // MakeTiered creates a well-ordered Tiered out of a list of Tiers.
 func MakeTiered(tiers ...Tier) Tiered {
-	sort.Slice(tiers, func(i, j int) bool {
-		return tiers[j].Units < tiers[i].Units
-	})
+	t := Tiered{
+		Tiers: tiers,
+	}
 
-	return tiers
+	t.sort()
+
+	return t
 }
 
 // FlatToTiered takes a tiered as a prototype, and converts a flat amount
 // into a Tiered.
 func (t Tiered) FlatToTiered(amount int) Tiered {
-	tiers := MakeTiered(t...)
+	if !t.sorted {
+		t.sort()
+	}
 
-	for i := range tiers {
-		if amount < tiers[i].Units {
+	for i := range t.Tiers {
+		if amount < t.Tiers[i].Units {
 			continue
 		}
 
-		tiers[i].Amount = amount / tiers[i].Units
-		amount %= tiers[i].Units
+		t.Tiers[i].Amount = amount / t.Tiers[i].Units
+		amount %= t.Tiers[i].Units
 	}
 
-	return tiers
+	return t
 }
 
 func (t Tiered) String() string {
 	var out string
 
-	for _, ti := range t {
+	if !t.sorted {
+		t.sort()
+	}
+
+	for _, ti := range t.Tiers {
 		if ti.Amount != 0 {
 			out += fmt.Sprintf("%v%v", ti.Amount, ti.Abbrev)
 		}
 	}
 	if out == "" {
-		last := len(t) - 1
-		out = fmt.Sprintf("0%v", t[last].Abbrev)
+		last := len(t.Tiers) - 1
+		out = fmt.Sprintf("0%v", t.Tiers[last].Abbrev)
 	}
 
 	return out
+}
+
+func (t *Tiered) sort() {
+	sort.Slice(t.Tiers, func(i, j int) bool {
+		return t.Tiers[j].Units < t.Tiers[i].Units
+	})
+
+	t.sorted = true
 }
