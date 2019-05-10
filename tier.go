@@ -54,6 +54,17 @@ func (t Tiered) From(amount int) Tiered {
 	return t
 }
 
+// Value gives you the flattened value of a Tiered
+func (t Tiered) Value() int {
+	var val int
+
+	for _, tier := range t.tiers {
+		val += tier.Amount * tier.Units
+	}
+
+	return val
+}
+
 func (t Tiered) String() string {
 	var out string
 

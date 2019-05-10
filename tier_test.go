@@ -53,4 +53,11 @@ func TestHelloWorld(t *testing.T) {
 			assert.Zero(timeish.tiers[i].Amount)
 		}
 	})
+	t.Run("values", func(t *testing.T) {
+		assert := assert.New(t)
+
+		cleese := english.From(77)
+		assert.Equal(`6'5"`, cleese.String())
+		assert.Equal(77, cleese.Value())
+	})
 }
