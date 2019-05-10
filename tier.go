@@ -24,7 +24,7 @@ type Tiered struct {
 // MakeTiered creates a well-ordered Tiered out of a list of Tiers.
 func MakeTiered(tiers ...Tier) Tiered {
 	t := Tiered{
-		Tiers: tiers,
+		Tiers: append([]Tier{}, tiers...),
 	}
 
 	t.sort()
@@ -32,20 +32,24 @@ func MakeTiered(tiers ...Tier) Tiered {
 	return t
 }
 
-// FlatToTiered takes a tiered as a prototype, and converts a flat amount
-// into a Tiered.
-func (t Tiered) FlatToTiered(amount int) Tiered {
+// From takes a tiered as a prototype, and converts a flat amount
+// into a new Tiered.
+func (t Tiered) From(amount int) Tiered {
 	if !t.sorted {
 		t.sort()
 	}
 
-	for i := range t.Tiers {
-		if amount < t.Tiers[i].Units {
-			continue
+	tiers := t.Tiers
+	t.Tiers = make([]Tier, len(tiers))
+	for i := range tiers {
+		t.Tiers[i] = Tier{
+			Name:   tiers[i].Name,
+			Units:  tiers[i].Units,
+			Abbrev: tiers[i].Abbrev,
+			Amount: amount / tiers[i].Units,
 		}
 
-		t.Tiers[i].Amount = amount / t.Tiers[i].Units
-		amount %= t.Tiers[i].Units
+		amount %= tiers[i].Units
 	}
 
 	return t

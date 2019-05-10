@@ -40,8 +40,21 @@ func TestHelloWorld(t *testing.T) {
 	t.Run("strings", func(t *testing.T) {
 		assert := assert.New(t)
 
-		assert.Equal(`6'3"`, english.FlatToTiered(75).String())
-		assert.Equal("1h1s", timeish.FlatToTiered(3601).String())
-		assert.Equal("2h2m2s", timeish.FlatToTiered(7322).String())
+		for i := range english.Tiers {
+			assert.Zero(english.Tiers[i].Amount)
+		}
+
+		assert.Equal(`6'3"`, english.From(75).String())
+		assert.Equal(`4"`, english.From(4).String())
+		assert.Equal("1h1s", timeish.From(3601).String())
+		assert.Equal("2h2m2s", timeish.From(7322).String())
+		assert.Equal("8h1s", timeish.From(28801).String())
+
+		for i := range english.Tiers {
+			assert.Zero(english.Tiers[i].Amount)
+		}
+		for i := range timeish.Tiers {
+			assert.Zero(timeish.Tiers[i].Amount)
+		}
 	})
 }
