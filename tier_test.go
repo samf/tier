@@ -9,24 +9,29 @@ import (
 func TestHelloWorld(t *testing.T) {
 	timeish := MakeTiered(
 		Tier{
+			Name:   "seconds",
 			Units:  1,
 			Abbrev: "s",
 		},
 		Tier{
+			Name:   "minutes",
 			Units:  60,
 			Abbrev: "m",
 		},
 		Tier{
+			Name:   "hours",
 			Units:  3600,
 			Abbrev: "h",
 		},
 	)
 	english := MakeTiered(
 		Tier{
+			Name:   "inches",
 			Units:  1,
 			Abbrev: "\"",
 		},
 		Tier{
+			Name:   "feet",
 			Units:  12,
 			Abbrev: "'",
 		},
