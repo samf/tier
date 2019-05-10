@@ -16,15 +16,14 @@ type Tier struct {
 // Tiered is a type for representing a system of tiers. It should be created via the
 // MakeTiered call.
 type Tiered struct {
-	Tiers []Tier
-
+	tiers  []Tier
 	sorted bool
 }
 
-// MakeTiered creates a well-ordered Tiered out of a list of Tiers.
+// MakeTiered creates a well-ordered Tiered out of a list of tiers.
 func MakeTiered(tiers ...Tier) Tiered {
 	t := Tiered{
-		Tiers: append([]Tier{}, tiers...),
+		tiers: append([]Tier{}, tiers...),
 	}
 
 	t.sort()
@@ -39,10 +38,10 @@ func (t Tiered) From(amount int) Tiered {
 		t.sort()
 	}
 
-	tiers := t.Tiers
-	t.Tiers = make([]Tier, len(tiers))
+	tiers := t.tiers
+	t.tiers = make([]Tier, len(tiers))
 	for i := range tiers {
-		t.Tiers[i] = Tier{
+		t.tiers[i] = Tier{
 			Name:   tiers[i].Name,
 			Units:  tiers[i].Units,
 			Abbrev: tiers[i].Abbrev,
@@ -62,22 +61,22 @@ func (t Tiered) String() string {
 		t.sort()
 	}
 
-	for _, ti := range t.Tiers {
+	for _, ti := range t.tiers {
 		if ti.Amount != 0 {
 			out += fmt.Sprintf("%v%v", ti.Amount, ti.Abbrev)
 		}
 	}
 	if out == "" {
-		last := len(t.Tiers) - 1
-		out = fmt.Sprintf("0%v", t.Tiers[last].Abbrev)
+		last := len(t.tiers) - 1
+		out = fmt.Sprintf("0%v", t.tiers[last].Abbrev)
 	}
 
 	return out
 }
 
 func (t *Tiered) sort() {
-	sort.Slice(t.Tiers, func(i, j int) bool {
-		return t.Tiers[j].Units < t.Tiers[i].Units
+	sort.Slice(t.tiers, func(i, j int) bool {
+		return t.tiers[j].Units < t.tiers[i].Units
 	})
 
 	t.sorted = true
