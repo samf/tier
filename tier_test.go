@@ -58,6 +58,11 @@ func TestHelloWorld(t *testing.T) {
 
 		cleese := english.From(77)
 		assert.Equal(`6'5"`, cleese.String())
-		assert.Equal(77, cleese.Value())
+		assert.Equal(int64(77), cleese.Value())
+	})
+	t.Run("presets", func(t *testing.T) {
+		assert := assert.New(t)
+
+		assert.Equal("32k", Bytes.From(32768).String())
 	})
 }
