@@ -8,9 +8,9 @@ import (
 // Tier is a single tier to be used in a Tiered type.
 type Tier struct {
 	Name   string
-	Units  int
+	Units  int64
 	Abbrev string
-	Amount int
+	Amount int64
 }
 
 // Tiered is a type for representing a system of tiers. It should be created via the
@@ -33,7 +33,7 @@ func MakeTiered(tiers ...Tier) Tiered {
 
 // From takes a tiered as a prototype, and converts a flat amount
 // into a new Tiered.
-func (t Tiered) From(amount int) Tiered {
+func (t Tiered) From(amount int64) Tiered {
 	if !t.sorted {
 		t.sort()
 	}
@@ -55,8 +55,8 @@ func (t Tiered) From(amount int) Tiered {
 }
 
 // Value gives you the flattened value of a Tiered
-func (t Tiered) Value() int {
-	var val int
+func (t Tiered) Value() int64 {
+	var val int64
 
 	for _, tier := range t.tiers {
 		val += tier.Amount * tier.Units
