@@ -65,4 +65,11 @@ func TestHelloWorld(t *testing.T) {
 
 		assert.Equal("32k", Bytes.From(32768).String())
 	})
+	t.Run("shorten", func(t *testing.T) {
+		assert := assert.New(t)
+
+		blob := Bytes.From(33333)
+		assert.Equal("32k", blob.Short())
+		assert.NotEqual("32k", blob.String())
+	})
 }

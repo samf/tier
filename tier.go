@@ -85,6 +85,24 @@ func (t Tiered) String() string {
 	return out
 }
 
+// Short returns a shortened string, giving only the largest unit and ignoring
+// the rest.
+func (t Tiered) Short() string {
+	var ti Tier
+
+	if !t.sorted {
+		t.sort()
+	}
+
+	for _, ti = range t.tiers {
+		if ti.Amount != 0 {
+			break
+		}
+	}
+
+	return fmt.Sprintf("%v%v", ti.Amount, ti.Abbrev)
+}
+
 func (t *Tiered) sort() {
 	sort.Slice(t.tiers, func(i, j int) bool {
 		return t.tiers[j].Units < t.tiers[i].Units
