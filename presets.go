@@ -39,4 +39,33 @@ var (
 			Units:  1024 * 1024 * 1024 * 1024 * 1024 * 1024,
 		},
 	)
+
+	// Time is for weeks, days, hours, etc.
+	Time = MakeTiered(
+		Tier{
+			Name:   "seconds",
+			Abbrev: "s",
+			Units:  1,
+		},
+		Tier{
+			Name:   "minutes",
+			Abbrev: "m",
+			Units:  60,
+		},
+		Tier{
+			Name:   "hours",
+			Abbrev: "h",
+			Units:  60 * 60,
+		},
+		Tier{
+			Name:   "days",
+			Abbrev: "d",
+			Units:  60 * 60 * 24,
+		},
+		Tier{
+			Name:   "weeks",
+			Abbrev: "w",
+			Units:  60 * 60 * 24 * 7,
+		},
+	)
 )
