@@ -13,8 +13,8 @@ type Tier struct {
 	Amount int64
 }
 
-// Tiered is a type for representing a system of tiers. It should be created via the
-// MakeTiered call.
+// Tiered is a type for representing a system of tiers. It should be created via
+// the MakeTiered call.
 type Tiered struct {
 	tiers  []Tier
 	sorted bool
@@ -31,9 +31,8 @@ func MakeTiered(tiers ...Tier) Tiered {
 	return t
 }
 
-// From takes a tiered as a prototype, and converts a flat amount
-// into a new Tiered.
-func (t Tiered) From(amount int64) Tiered {
+// Make takes a tiered as a prototype, and converts a value into a new Tiered.
+func (t Tiered) Make(amount int64) Tiered {
 	if !t.sorted {
 		t.sort()
 	}
