@@ -1,4 +1,4 @@
-module github.com/samf/tierflat
+module github.com/samf/tier
 
 go 1.12
 
