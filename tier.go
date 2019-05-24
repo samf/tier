@@ -1,4 +1,4 @@
-package tierflat
+package tier
 
 import (
 	"fmt"

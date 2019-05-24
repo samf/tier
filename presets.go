@@ -1,4 +1,4 @@
-package tierflat
+package tier
 
 var (
 	// Bytes is for bytes, kilobytes, etc.
