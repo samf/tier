@@ -67,5 +67,10 @@ var (
 			Abbrev: "w",
 			Units:  60 * 60 * 24 * 7,
 		},
+		Tier{
+			Name:   "years",
+			Abbrev: "y",
+			Units:  int64(365.2425 * 86400),
+		},
 	)
 )
